@@ -23,7 +23,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-<ClerkProvider afterSignOutUrl={"/"}>
+<ClerkProvider 
+afterSignOutUrl={"/"}
+appearance={{variables:{colorPrimary:"#624cf5"}}}>
 <html lang="en">
   <body className={cn("font-ibmPlex antialiased", ibmPlex.variable)}>
     <SignedOut>
