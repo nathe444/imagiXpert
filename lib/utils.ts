@@ -1,7 +1,7 @@
 /* eslint-disable prefer-const */
 /* eslint-disable no-prototype-builtins */
 import { type ClassValue, clsx } from "clsx";
-import qs from "qs"
+import qs from "qs";
 import { twMerge } from "tailwind-merge";
 
 import { aspectRatioOptions } from "@/constants";
@@ -53,6 +53,12 @@ export const dataUrl = `data:image/svg+xml;base64,${toBase64(
 // ==== End
 
 // FORM URL QUERY
+export interface FormUrlQueryParams {
+  searchParams: URLSearchParams;
+  key: string;
+  value: string | number | boolean | null;
+}
+
 export const formUrlQuery = ({
   searchParams,
   key,
@@ -66,11 +72,16 @@ export const formUrlQuery = ({
 };
 
 // REMOVE KEY FROM QUERY
+export interface RemoveUrlQueryParams {
+  searchParams: URLSearchParams;
+  keysToRemove: string[];
+}
+
 export function removeKeysFromQuery({
   searchParams,
   keysToRemove,
 }: RemoveUrlQueryParams) {
-  const currentUrl = qs.parse(searchParams);
+  const currentUrl = qs.parse(searchParams.toString());
 
   keysToRemove.forEach((key) => {
     delete currentUrl[key];
@@ -85,9 +96,9 @@ export function removeKeysFromQuery({
 }
 
 // DEBOUNCE
-export const debounce = (func: (...args: any[]) => void, delay: number) => {
+export const debounce = (func: (...args: unknown[]) => void, delay: number) => {
   let timeoutId: NodeJS.Timeout | null;
-  return (...args: any[]) => {
+  return (...args: unknown[]) => {
     if (timeoutId) clearTimeout(timeoutId);
     timeoutId = setTimeout(() => func.apply(null, args), delay);
   };
@@ -95,9 +106,15 @@ export const debounce = (func: (...args: any[]) => void, delay: number) => {
 
 // GE IMAGE SIZE
 export type AspectRatioKey = keyof typeof aspectRatioOptions;
+export interface ImageData {
+  aspectRatio?: string;
+  width?: number;
+  height?: number;
+}
+
 export const getImageSize = (
   type: string,
-  image: any,
+  image: ImageData,
   dimension: "width" | "height"
 ): number => {
   if (type === "fill") {
@@ -131,8 +148,8 @@ export const download = (url: string, filename: string) => {
 };
 
 // DEEP MERGE OBJECTS
-export const deepMergeObjects = (obj1: any, obj2: any) => {
-  if(obj2 === null || obj2 === undefined) {
+export const deepMergeObjects = <T extends Record<string, unknown>>(obj1: T, obj2: T | null): T => {
+  if (obj2 === null || obj2 === undefined) {
     return obj1;
   }
 
@@ -146,7 +163,10 @@ export const deepMergeObjects = (obj1: any, obj2: any) => {
         obj2[key] &&
         typeof obj2[key] === "object"
       ) {
-        output[key] = deepMergeObjects(obj1[key], obj2[key]);
+        output[key] = deepMergeObjects(
+          obj1[key] as Record<string, unknown>,
+          obj2[key] as Record<string, unknown>
+        );
       } else {
         output[key] = obj1[key];
       }
