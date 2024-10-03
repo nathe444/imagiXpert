@@ -6,7 +6,6 @@ import React from "react";
 import { navLinks } from "../../../constants";
 import { usePathname } from "next/navigation";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
-import { Sign } from "crypto";
 import { Button } from "../ui/button";
 
 const Sidebar = () => {
