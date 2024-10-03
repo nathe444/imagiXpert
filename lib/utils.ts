@@ -4,7 +4,7 @@ import { type ClassValue, clsx } from "clsx";
 import qs from "qs";
 import { twMerge } from "tailwind-merge";
 
-import { aspectRatioOptions } from "@/constants";
+import { aspectRatioOptions } from "../constants";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -53,12 +53,6 @@ export const dataUrl = `data:image/svg+xml;base64,${toBase64(
 // ==== End
 
 // FORM URL QUERY
-export interface FormUrlQueryParams {
-  searchParams: URLSearchParams;
-  key: string;
-  value: string | number | boolean | null;
-}
-
 export const formUrlQuery = ({
   searchParams,
   key,
@@ -72,16 +66,11 @@ export const formUrlQuery = ({
 };
 
 // REMOVE KEY FROM QUERY
-export interface RemoveUrlQueryParams {
-  searchParams: URLSearchParams;
-  keysToRemove: string[];
-}
-
 export function removeKeysFromQuery({
   searchParams,
   keysToRemove,
 }: RemoveUrlQueryParams) {
-  const currentUrl = qs.parse(searchParams.toString());
+  const currentUrl = qs.parse(searchParams);
 
   keysToRemove.forEach((key) => {
     delete currentUrl[key];
@@ -96,26 +85,19 @@ export function removeKeysFromQuery({
 }
 
 // DEBOUNCE
-export const debounce = (func: (...args: unknown[]) => void, delay: number) => {
+export const debounce = (func: (...args: any[]) => void, delay: number) => {
   let timeoutId: NodeJS.Timeout | null;
-  return (...args: unknown[]) => {
+  return (...args: any[]) => {
     if (timeoutId) clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => func(...args), delay); // Use spread operator here
+    timeoutId = setTimeout(() => func.apply(null, args), delay);
   };
 };
 
-
 // GE IMAGE SIZE
 export type AspectRatioKey = keyof typeof aspectRatioOptions;
-export interface ImageData {
-  aspectRatio?: string;
-  width?: number;
-  height?: number;
-}
-
 export const getImageSize = (
   type: string,
-  image: ImageData,
+  image: any,
   dimension: "width" | "height"
 ): number => {
   if (type === "fill") {
@@ -149,8 +131,8 @@ export const download = (url: string, filename: string) => {
 };
 
 // DEEP MERGE OBJECTS
-export const deepMergeObjects = <T extends Record<string, unknown>>(obj1: T, obj2: T | null): T => {
-  if (obj2 === null || obj2 === undefined) {
+export const deepMergeObjects = (obj1: any, obj2: any) => {
+  if(obj2 === null || obj2 === undefined) {
     return obj1;
   }
 
@@ -164,10 +146,7 @@ export const deepMergeObjects = <T extends Record<string, unknown>>(obj1: T, obj
         obj2[key] &&
         typeof obj2[key] === "object"
       ) {
-        output[key] = deepMergeObjects(
-          obj1[key] as Record<string, unknown>,
-          obj2[key] as Record<string, unknown>
-        );
+        output[key] = deepMergeObjects(obj1[key], obj2[key]);
       } else {
         output[key] = obj1[key];
       }
