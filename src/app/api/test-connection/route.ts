@@ -4,8 +4,7 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const db = await connectToDatabase();
-
+    await connectToDatabase();
     // // Example user data
     // const newUser = {
     //   clerkId: "clerk_1234567890", // This should be replaced with the actual Clerk ID
