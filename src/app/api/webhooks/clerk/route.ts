@@ -89,8 +89,8 @@ export async function POST(req: Request) {
     const { id, image_url, first_name, last_name, username } = evt.data;
 
     const user = {
-      firstName: first_name,
-      lastName: last_name,
+      firstName: first_name ?? "",
+      lastName: last_name ?? "",
       username: username!,
       photo: image_url,
     };
