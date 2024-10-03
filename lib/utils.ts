@@ -100,9 +100,10 @@ export const debounce = (func: (...args: unknown[]) => void, delay: number) => {
   let timeoutId: NodeJS.Timeout | null;
   return (...args: unknown[]) => {
     if (timeoutId) clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => func.apply(null, args), delay);
+    timeoutId = setTimeout(() => func(...args), delay); // Use spread operator here
   };
 };
+
 
 // GE IMAGE SIZE
 export type AspectRatioKey = keyof typeof aspectRatioOptions;
