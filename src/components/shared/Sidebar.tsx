@@ -15,11 +15,12 @@ const Sidebar = () => {
       <div className="flex size-full flex-col gap-4">
         <Link href="/" className="sidebar-logo">
           <Image
-            src="/assets/images/logo-text.svg"
+            src="/assets/images/logo-icon.png"
             alt="logo"
-            width={160}
+            width={20}
             height={20}
           />
+          <h1 className="text-purple-700 text-3xl">IMAGIXPERT</h1>
         </Link>
 
         <nav className="sidebar-nav">
