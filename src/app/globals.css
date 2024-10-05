@@ -293,7 +293,7 @@
   }
 
   .media-uploader_cta-image {
-    @apply rounded-[16px] bg-white  p-5 shadow-sm shadow-purple-200/50;
+    @apply rounded-[16px] bg-white  p-5 shadow-sm shadow-purple-200/50 flex flex-col items-center justify-center;
   }
 
   /* Navbar Component */
