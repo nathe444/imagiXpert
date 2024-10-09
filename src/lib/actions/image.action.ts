@@ -6,8 +6,13 @@ import { handleError } from "../utils"
 import User from "../database/models/user.model"
 import Image from "../database/models/image.model"
 import { redirect } from "next/navigation";
+import path from "path"
 
-const 
+const  populateUser = (query:any) => query.populate({
+  path: 'author',
+  model: 'User',
+  select: '_id firstName lastName'
+})
 
 export async function addImage({image , userId,path}:AddImageParams){
   try{
