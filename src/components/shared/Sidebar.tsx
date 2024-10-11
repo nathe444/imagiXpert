@@ -11,7 +11,7 @@ import { Button } from "../ui/button";
 const Sidebar = () => {
   const pathname = usePathname();
   return (
-    <aside>
+    <aside className="px-6 py-3">
       <div className="flex size-full flex-col gap-4">
         <Link href="/" className="sidebar-logo">
           <Image
@@ -32,9 +32,7 @@ const Sidebar = () => {
                   <li
                     key={link.route}
                     className={`sidebar-nav_element group ${
-                      isActive
-                        ? "bg-purple-gradient text-white"
-                        : "text-gray-700"
+                      isActive ? "bg-slate-800 text-white" : "text-gray-700"
                     }`}
                   >
                     <Link href={link.route} className="sidebar-link">
@@ -61,9 +59,7 @@ const Sidebar = () => {
                   <li
                     key={link.route}
                     className={`sidebar-nav_element group ${
-                      isActive
-                        ? "bg-purple-gradient text-white"
-                        : "text-gray-700"
+                      isActive ? "bg-slate-900 text-white" : "text-gray-700"
                     }`}
                   >
                     <Link href={link.route} className="sidebar-link">
